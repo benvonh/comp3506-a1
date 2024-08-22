@@ -13,7 +13,7 @@ class DynamicArray:
         self._offset: int = 16
         self._capacity: int = 64
         self._reverse: bool = False
-        self._buffer: List = [None] * self._capacity
+        self._data: List = [None] * self._capacity
 
     def __str__(self) -> str:
         """
@@ -32,9 +32,9 @@ class DynamicArray:
             return
         
         if self._reverse:
-            return self._buffer[self._size - index - 1 + self._offset]
+            return self._data[self._size - index - 1 + self._offset]
     
-        return self._buffer[index + self._offset]
+        return self._data[index + self._offset]
 
     def __getitem__(self, index: int) -> Any | None:
         """
@@ -53,9 +53,9 @@ class DynamicArray:
             return
         
         if self._reverse:
-            self._buffer[self._size - index - 1 + self._offset] = element
+            self._data[self._size - index - 1 + self._offset] = element
         else:
-            self._buffer[index + self._offset] = element
+            self._data[index + self._offset] = element
 
     def __setitem__(self, index: int, element: Any) -> None:
         """
@@ -85,31 +85,33 @@ class DynamicArray:
         if self._offset == 0:
             new_offset: int = self._capacity
             self._capacity *= 2
-            new_buffer: List = [None] * self._capacity
+            new_data: List = [None] * self._capacity
             # Copy data to the same position but where the left-side was extended
             for i in range(self._size):
-                new_buffer[i + new_offset] = self._buffer[i + self._offset]
+                new_data[i + new_offset] = self._data[i + self._offset]
             # Assign to new offset and buffer
             self._offset = new_offset
-            self._buffer = new_buffer
+            self._data = new_data
         # Increase capacity right of array
         if self._size + self._offset == self._capacity:
             self._capacity *= 2
-            new_buffer: List = [None] * self._capacity
+            new_data: List = [None] * self._capacity
             # Copy data to the same position but where the right-side was extended
             for i in range(self._size):
-                new_buffer[i + self._offset] = self._buffer[i + self._offset]
+                new_data[i + self._offset] = self._data[i + self._offset]
             # Assign to new buffer
-            self._buffer = new_buffer
+            self._data = new_data
         
         # Assign element to the front
         if front:
-            self._buffer[self._offset - 1] = element
+            self._data[self._offset - 1] = element
             self._offset -= 1
         # Assign element to the back
         else:
-            self._buffer[self._size + self._offset] = element
-            self._offset += 1
+            self._data[self._size + self._offset] = element
+            # self._offset += 1
+        
+        self._size += 1
 
     def reverse(self) -> None:
         """
@@ -124,12 +126,25 @@ class DynamicArray:
         If there is no such element, leave the array unchanged.
         Time complexity for full marks: O(N)
         """
+        index = None
+        # Loop data from right to left
         if self._reverse:
-            pass
+            for i in range(self._size - 1 - self._offset, self._offset - 1, -1):
+                if self._data[i] == element:
+                    index = i
+                    break
+        # Loop data from left to right
         else:
-            for i in range(self._offset, self._size - 1 + self._offset):
-                if 
-
+            for i in range(self._offset, self._offset + self._size):
+                if self._data[i] == element:
+                    index = i
+                    break
+        # No index if no match
+        if index is None:
+            return
+        # Smart remove that index match
+        self.remove_at(index)
+                    
     def remove_at(self, index: int) -> Any | None:
         """
         Remove the element at the given index from the array and return the removed element.
@@ -140,19 +155,26 @@ class DynamicArray:
             return
         # Collapse array on the left of element to the right
         if self._reverse:
+            # Save removed data first
+            data = self._data[self._size - 1 + index + self._offset]
+            # Begin looping to the left of index
             for i in range(self._size - 1 - index + self._offset, self._offset + 1, -1):
-                self._buffer[i] = self._buffer[i - 1]
-
-            self._buffer[self._offset] = None
+                self._data[i] = self._data[i - 1]
+            # Clean first element and increment offset
+            self._data[self._offset] = None
             self._offset += 1
         # Collapse array on the right of element to the left
         else:
+            # Save removed data first
+            data = self._data[index + self._offset]
+            # Begin looping to the right of index
             for i in range(index + self._offset, self._size - 1 + self._offset):
-                self._buffer[i] = self._buffer[i + 1]
-            
-            self._buffer[self._size - 1] = None
-        # Decrement size counter
+                self._data[i] = self._data[i + 1]
+            # Clean last element
+            self._data[self._size - 1] = None
+        # Decrement size counter and return removed data
         self._size -= 1
+        return data
 
     def is_empty(self) -> bool:
         """
@@ -188,6 +210,3 @@ class DynamicArray:
         Time complexity for full marks: O(NlogN)
         """
         pass
-
-    def __mergesort(self, array: List) -> List[Any]:
-        if array.size

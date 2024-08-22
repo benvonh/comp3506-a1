@@ -55,7 +55,17 @@ def main_character(instring: list[int]) -> int:
     main_character([7, 1, 2, 7]) == 3
     main_character([60000, 120000, 654321, 999, 1337, 133731337]) == -1
     """
+    bitvector = BitVector()
+    # TODO: IMplement it in bitvector -> resize
+    bitvector.
 
+    for num in instring:
+        if bitvector.get_at(num) == 1:
+            return num
+
+        bitvector.set_at(num)
+
+    return -1
 
 def missing_odds(inputs: list[int]) -> int:
     """
@@ -82,9 +92,16 @@ def missing_odds(inputs: list[int]) -> int:
     missing_odds([4, 1]) == 3
     missing_odds([4, 1, 8, 5]) == 10    # 3 and 7 are missing
     """
+    smallest = inputs[0]
+    largest = inputs[0]
 
-    # YOUR CODE GOES HERE
-    pass
+    for num in inputs:
+        if num < smallest:
+            smallest = num
+        elif num > largest:
+            largest = num
+
+    
 
 
 def k_cool(k: int, n: int) -> int:
