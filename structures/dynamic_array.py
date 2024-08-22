@@ -127,7 +127,8 @@ class DynamicArray:
         if self._reverse:
             pass
         else:
-            pass
+            for i in range(self._offset, self._size - 1 + self._offset):
+                if 
 
     def remove_at(self, index: int) -> Any | None:
         """
@@ -187,3 +188,6 @@ class DynamicArray:
         Time complexity for full marks: O(NlogN)
         """
         pass
+
+    def __mergesort(self, array: List) -> List[Any]:
+        if array.size
