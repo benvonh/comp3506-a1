@@ -109,7 +109,6 @@ class DynamicArray:
         # Assign element to the back
         else:
             self._data[self._size + self._offset] = element
-            # self._offset += 1
         
         self._size += 1
 
@@ -209,4 +208,29 @@ class DynamicArray:
         Sort elements inside _data based on < comparisons.
         Time complexity for full marks: O(NlogN)
         """
-        pass
+        width = 1
+        n = self._size
+
+    def __split(self, array: List[Any], size: int) -> List[Any]:
+        if size == 1:
+            return array[0]
+        
+        half: int = size // 2
+
+        left_size = half
+        right_size = size - half
+
+        left = [None] * left_size
+        right = [None] * right_size
+
+        for i in range(half):
+            left[i] = array[i]
+            right[i] = array[i + half]
+
+        if right_size % 2 != 0:
+            right[right_size - 1] = array[size - 1]
+
+        self.__split(left, left_size)
+        self.__split(right, right_size)
+
+        

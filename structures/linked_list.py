@@ -64,7 +64,7 @@ class DoublyLinkedList:
         node = self._head
 
         while counter < self._size:
-            msg += node.get_data()
+            msg += str(node.get_data()) + ', '
             node = node.get_next()
             counter += 1
         
@@ -255,26 +255,27 @@ class DoublyLinkedList:
         return True
 
     def __find_node(self, elem: Any) -> Node | None:
-        counter: int = 0
         # Find elem in reverse
         if self._reverse:
             node = self._tail
             # Loop for size many times
-            while counter < self._size:
+            for _ in range(self._size):
+                if node is None:
+                    return
                 if node.get_data() == elem:
                     return node
                 # Get previous node
-                counter += 1
                 node = node.get_prev()
         # Find elem in forward
         else:
             node = self._head
             # Loop for size many times
-            while counter < self._size:
+            for _ in range(self._size):
+                if node is None:
+                    return
                 if node.get_data() == elem:
                     return node
                 # Get next node
-                counter += 1
                 node = node.get_next()
 
     def reverse(self) -> None:

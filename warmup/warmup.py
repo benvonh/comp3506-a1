@@ -56,8 +56,9 @@ def main_character(instring: list[int]) -> int:
     main_character([60000, 120000, 654321, 999, 1337, 133731337]) == -1
     """
     bitvector = BitVector()
-    # TODO: IMplement it in bitvector -> resize
-    bitvector.
+
+    for i in range(2**32):
+        bitvector.append(0)
 
     for num in instring:
         if bitvector.get_at(num) == 1:
@@ -100,8 +101,6 @@ def missing_odds(inputs: list[int]) -> int:
             smallest = num
         elif num > largest:
             largest = num
-
-    
 
 
 def k_cool(k: int, n: int) -> int:

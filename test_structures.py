@@ -40,20 +40,20 @@ def test_linked_list():
 
     # Now lets try to find a node
     elem = my_list.find_element("algorithms")
-    if elem is not None:
-        print ("Found node with data = ", elem.get_data())
+    if elem:
+        print ("Found node with data = algorithms")
 
     # And try to delete one
     elem = my_list.find_and_remove_element("1337")
-    if elem is not None:
-        print ("Deleted ", elem.get_data())
+    if elem:
+        print ("Deleted 1337")
     else:
         print ("Didn't find element = 1337")
 
     # And try to delete another one
     elem = my_list.find_and_remove_element("hello")
-    if elem is not None:
-        print ("Deleted ", elem.get_data())
+    if elem:
+        print ("Deleted hello")
     else:
         print ("Didn't find element = world")
 
@@ -108,4 +108,3 @@ if __name__ == "__main__":
 
     if args.bitvector:
         test_bitvector()
-
